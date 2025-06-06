@@ -75,7 +75,7 @@ Here is how I merged `recipes` and `ratings`
 3. Grouped all ratings of recipes by average
 4. Dropped `review` column
 
-Now that is clean and merged, let's see the result. 
+Now that is clean and merged, let's see the result (removed a few column for display). 
 
 | name                                 |     id |   minutes |   n_ingredients |   calories |   average rating |
 |:-------------------------------------|-------:|----------:|----------------:|-----------:|-----------------:|
@@ -89,8 +89,8 @@ Onto analysis!
 
 <iframe
   src="assets\Distribution_of_cooking_time.html"
-  width="500"
-  height="300"
+  width="700"
+  height="500"
   frameborder="0"
 ></iframe>
 
