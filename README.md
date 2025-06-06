@@ -87,7 +87,7 @@ Onto analysis!
 
 ### Univariate Analysis
 
-For univariate analysis, I will observe the distirbution of cooking minutes in a recipe. Note that I zoomed in to focus on the distribution under 300 minuutes (or 5 hours) - as initial results goes onward to 1 million minutes. This clearly suggest a significiant positive skew. In addition, most of the distirbution though suggests cooking time to take anywhere from 20 to 65 minutes.
+For univariate analysis, I will observe the distribution of cooking minutes in a recipe. Note that I zoomed in to focus on the distribution under 300 minuutes (or 5 hours) - as initial results goes onward to 1 million minutes. This clearly suggest a significiant positive skew. In addition, most of the distirbution though suggests cooking time to take anywhere from 20 to 65 minutes.
 
 <iframe
   src="assets\Distribution_of_cooking_time.html"
@@ -96,9 +96,17 @@ For univariate analysis, I will observe the distirbution of cooking minutes in a
   frameborder="0"
 ></iframe>
 
-
-
 ## Bivariate Analysis
 
+For bivariate analysis, I will observe the distirbution of average ratings across binned minutes. I first trimmed the dataset by the 95th percentile of `time` to better reflect a more realistic representation of the cooking time. This value is selected in consideration that 95th percentile which is one of the values closest to multiples of 15. 15 here represent the length of the interval and an arbitrary time difference noticeable when cooking. After trimming, I binned the time by intervals 5, leading to a total of 17 groups. 
+
+From the observation, we can see a similar instance where average ratings are in the range of 4.5 to 5 across different bins of time, with more ratings in the lower time bins. I would later explore in particular whether high ratings are in fact uniformatlly common across time bins or not.
+
+<iframe
+  src="assets\Cooking_Time_Binned_(min)_vs._Average_Ratings.html"
+  width="700"
+  height="450"
+  frameborder="0"
+></iframe>
 
 ## Interesting Aggregates
