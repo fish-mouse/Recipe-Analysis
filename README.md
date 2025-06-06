@@ -1,3 +1,3 @@
-# Exploring Relationship between Cooking Time and Average Rating of Recipes And Secondary Focus on Prediciton of Calories of Recipes
+# Exploring Relationship Between Cooking Time and Average Rating of Recipes with Secondary Focus on Calories Prediction
 
 Authors: Ricky Zhang
