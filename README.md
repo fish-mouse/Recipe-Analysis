@@ -87,12 +87,15 @@ Onto analysis!
 
 ### Univariate Analysis
 
+For univariate analysis, I will observe the distirbution of cooking minutes in a recipe. Note that I zoomed in to focus on the distribution under 300 minuutes (or 5 hours) - as initial results goes onward to 1 million minutes. This clearly suggest a significiant positive skew. In addition, most of the distirbution though suggests cooking time to take anywhere from 20 to 65 minutes.
+
 <iframe
   src="assets\Distribution_of_cooking_time.html"
   width="700"
-  height="500"
+  height="450"
   frameborder="0"
 ></iframe>
+
 
 
 ## Bivariate Analysis
