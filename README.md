@@ -96,9 +96,9 @@ For univariate analysis, I will observe the distribution of cooking minutes in a
   frameborder="0"
 ></iframe>
 
-## Bivariate Analysis
+### Bivariate Analysis
 
-For bivariate analysis, I will observe the distirbution of average ratings across binned minutes. I first trimmed the dataset by the 95th percentile of `time` to better reflect a more realistic representation of the cooking time. This value is selected in consideration that 95th percentile which is one of the values closest to multiples of 15. 15 here represent the length of the interval and an arbitrary time difference noticeable when cooking. After trimming, I binned the time by intervals 5, leading to a total of 17 groups. 
+For bivariate analysis, I will observe the distirbution of average ratings across binned minutes. I first trimmed the dataset by the 95th percentile of `time` to better reflect a more realistic representation of the cooking time. This value is selected in consideration that 95th percentile which is one of the values closest to multiples of 15. 15 here represent the length of the interval and an arbitrary time difference noticeable when cooking. After trimming, I binned the time by intervals of 15, leading to a total of 17 groups. 
 
 From the observation, we can see a similar instance where average ratings are in the range of 4.5 to 5 across different bins of time, with more ratings in the lower time bins. I would later explore in particular whether high ratings are in fact uniformatlly common across time bins or not.
 
@@ -109,4 +109,61 @@ From the observation, we can see a similar instance where average ratings are in
   frameborder="0"
 ></iframe>
 
-## Interesting Aggregates
+### Interesting Aggregates
+
+Here, I will observe if other variables influence average ratings across time bins, specific to first time user or not and average ratings higher than or equal 4.5. 
+
+| binned minutes   |    False |     True |
+|:-----------------|---------:|---------:|
+| [0, 15)          | 0.677721 | 0.798081 |
+| [105, 120)       | 0.766355 | 0.745495 |
+| [120, 135)       | 0.737589 | 0.76055  |
+| [135, 150)       | 0.679688 | 0.753056 |
+| [15, 30)         | 0.683398 | 0.761646 |
+| [150, 165)       | 0.724138 | 0.745353 |
+| [165, 180)       | 0.714286 | 0.781395 |
+| [180, 195)       | 0.692308 | 0.77305  |
+| [195, 210)       | 0.775862 | 0.769412 |
+| [210, 225)       | 0.810811 | 0.808511 |
+| [225, 240)       | 0.928571 | 0.77907  |
+| [240, 255)       | 0.685185 | 0.667519 |
+| [30, 45)         | 0.677839 | 0.751912 |
+| [45, 60)         | 0.69292  | 0.746869 |
+| [60, 75)         | 0.68688  | 0.748744 |
+| [75, 90)         | 0.708595 | 0.758336 |
+| [90, 105)        | 0.722846 | 0.754039 |
+
+Specifically, I created an additional boolean column, where true is if this is the contributor's first and only time. I determined this by seeing if their `contributor_id` appears once or more than once - in layman's term, whether they submitted more than 1 recipe or not. To note, even though food.com was launched in 1999, it is possible some user who are noted as one time contributor have contributed before 2008. However, within a 10 year timeframe, we can safely consider them as one time contributor if they contributed only once within 10 years. Finally, I use this new column to group the average ratings across time bins 2-way. 
+
+The result shows that first-time contributors have a higher proportion of recipes with high average ratings (>= 4.5), but this may be influenced by lower rating volume per recipe, not necessarily better quality. Therefore, there isn't conclusive evidence or trends to suggest that first-time contributors get more exposure.
+
+
+## Assessment of Missingness
+
+### NMAR Analaysis
+
+
+### Missingness Dependency
+
+
+## Hypothesis Testing
+
+### Hypothesis Testing
+
+## Framing a Prediction Problem
+
+### Problem Identification	
+
+## Baseline Model
+
+### Baseline Model	
+
+
+## Final Model
+
+### Final Model	
+
+
+## Fairness Analysis
+
+### Fairness Analysis	
