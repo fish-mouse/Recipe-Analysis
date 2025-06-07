@@ -201,11 +201,11 @@ As shown in the plot above and the p_val calculation, we see 0.01 < p_val = 0.02
 
 In the interest of determining the relationship between minutes and average rating, I focused on whether cooking time is associated with a high average rating (defined as ≥ 4.5). To answer this, I conducted a permutation test.
 
-Test Statistic: The sum of squared differences between the observed and expected proportions of high-rated recipes across cooking time bins.
+**Test Statistic**: The sum of squared differences between the observed and expected proportions of high-rated recipes across cooking time bins.
 
-Significance Level: 0.01
-Null Hypothesis (H₀): The proportion of highly rated recipes is the same across all cooking time bins.
-Alternative Hypothesis (H₁): The proportion of highly rated recipes differs in at least one cooking time bin.
+**Significance Level**: 0.01
+**Null Hypothesis (H₀)**: The proportion of highly rated recipes is the same across all cooking time bins.
+**Alternative Hypothesis (H₁)**: The proportion of highly rated recipes differs in at least one cooking time bin.
 
 To construct the test, I trimmed minutes at the 95th percentile to prevent extreme values from skewing the analysis, then grouped cooking time into bins of 15 minutes. Under the null hypothesis, we expect the proportion of high-rated recipes (≥ 4.5) to be uniformly distributed across the 17 bins — approximately 1/17 per bin. To measure deviation, I calculated the squared differences between the actual and expected proportions, summing across all bins. This penalizes larger deviations and ensures all differences are positive. Empty bins from sampling were assigned the full squared difference of the expected value.
 
@@ -213,22 +213,23 @@ I sampled 2000 recipes per simulation and shuffled the “Above 4.5” labels 10
 
 P-value: 0.0001
 
-Since 0.0001 < 0.01, we reject the null hypothesis. This suggests that the proportion of highly rated recipes is likely not uniform across cooking time bins — indicating a possible association between cooking time and high average ratings. 
+Since 0.0001 < 0.01, we reject the null hypothesis. This suggests that the proportion of highly rated recipes is likely not uniform across cooking time bins — indicating a possible association between cooking time and high average ratings.
 
 ## Framing a Prediction Problem
 
-### Problem Identification	
+In the current and following section, I will focus on predicting calories of the recipe in a regression problem approach. I chose calories as the response variable because this is one of the primary reasons for users in selecting which recipes to cook. I will be using RMSE as my metric for the following reasons. Firstly, I'm prioritizing how off I'm from the correct value. Secondly, I do not want to focus on capturing the overall variance of the dataset as the dataset has skewed data and noise (due to the encompassing of non-food recipes and self-reported nutritional values that may be inaccurate).
+
+Lastly, the relevant information I know at the time of prediction are `tags`, `minutes`, `n_steps`, `steps`, `n_ingredients`,  `ingredients`, and `average rating`. I will both derive and modify select features listed to train the model.
 
 ## Baseline Model
 
-### Baseline Model	
+In this section, to build the baseline model, I refamiliarize with the distribution of the columns. `Calories`, `n_steps` and `minuest` (in particular) have strong positive skewnees. Therefore, I transformed Calories logarithmically to reduce the skewness. Following, I select and modified the features as such. Firstly, I log transformed minutes using `FunctionTransformer` and `np.log1p`. Then I created an interactive term by multiplying `n_steps` and `n_ingredients`. The rationale is that the more steps and ingredients there is, the more processed potentially the food becomes, and thus higher calories.  In total, I have 2 quantitative features.
 
+I then splitted the dataset into 80% training data and 20% test data. After fitting the data, I asked the model to predict both the training and test features. The RMSE from training is around 0.890, while the RMSE from testing is around 0.889. This suggests that the model generalizes well to unseen data and is not overfitting, since the training and testing errors are nearly identical.
 
 ## Final Model
 
-### Final Model	
 
 
 ## Fairness Analysis
 
-### Fairness Analysis	
