@@ -179,7 +179,7 @@ To confirm my prior conjecture, I will perform permutation testing. Firstly, let
   frameborder="0"
 ></iframe>
 
-As shown in the plot above and the p_val calculation below, we see 0.01 > p_val = 0.0.0. Thus, we reject the null hypothesis. As a result, the missingness of `average rating` does depend on `n_steps`.
+As shown in the plot above and the p_val calculation below, we see 0.01 > p_val = 0.00. Thus, we reject the null hypothesis. As a result, the missingness of `average rating` does depend on `n_steps`.
 
 Finally, let us focus on `n_ingredients`.
 
@@ -223,13 +223,42 @@ Lastly, the relevant information I know at the time of prediction are `tags`, `m
 
 ## Baseline Model
 
+### Features
+
 In this section, to build the baseline model, I refamiliarize with the distribution of the columns. `Calories`, `n_steps` and `minuest` (in particular) have strong positive skewnees. Therefore, I transformed Calories logarithmically to reduce the skewness. Following, I select and modified the features as such. Firstly, I log transformed minutes using `FunctionTransformer` and `np.log1p`. Then I created an interactive term by multiplying `n_steps` and `n_ingredients`. The rationale is that the more steps and ingredients there is, the more processed potentially the food becomes, and thus higher calories.  In total, I have 2 quantitative features.
 
-I then splitted the dataset into 80% training data and 20% test data. After fitting the data, I asked the model to predict both the training and test features. The RMSE from training is around 0.890, while the RMSE from testing is around 0.889. This suggests that the model generalizes well to unseen data and is not overfitting, since the training and testing errors are nearly identical.
+### Performance & Model
+
+I then splitted the dataset into 80% training data and 20% test data. Instead of simple linear regression, I used Ridge, a regularized model, because in the final model, I plan to reuse `n_ingredients` for another feature, which may introduce instability and multicollinearity. 
+
+After fitting the data, I asked the model to predict both the training and test features. The RMSE from training is around 0.890, while the RMSE from testing is around 0.889. This suggests that the baseline model generalizes well to unseen data and is not overfitting, since the training and testing errors are nearly identical.
 
 ## Final Model
 
+### New Features
 
+In this section, to build the final model, I added/revised the following features. In ordered to better capture nonlinear trends, I incorporate the `FunctionTransformer` for the interactive term within a pipeline that further transforms it using `PolynomialFeatures` I currently left it as degree = 1 as default and will explore potential improvement while tuning with hyperparameters. 
+
+Regarding the two new numeric features I implemented, I built two custom Transformers with `BaseEstimator` and `TransformerMixin`: `TopIngredientsRatioEncoder` and `TopTagsRatioEncoder`. Both follow similar logic. Then, for each recipe, they compute the ratio of how many of its ingredients or tags are in the top 20 set relative to the total number of ingredients or tags it contains.
+
+Starting off, I extracted the top 20 most frequent strings from `ingredients` and `tags` of the entire dataset to identify the most typical or popular ingredients and tags used. Instead of keep them as raw counts, I converted them into ratios to normalize across recipes of different lengths. This helps avoid bias where recipes with more ingredients or tags could score higher due to size. I believe these ratios are meaningful because they capture how much a recipe aligns with common culinary patterns, which may influence calorie content indirectly through standardization or popularity of preparation styles.
+
+### Model & Hyerparameters
+
+As mentioned earlier, I used Ridge rather than simple linear regression model to lessen multicollinearity introduced by reusing `n_ingredients`.
+
+On hyperparameters, I used three: `ridge__alpha`, `columntransformer__transformer_weights`, and `columntransformer__n_ingred_log_step_poly__poly__degree`. To explain, since I'm using Ridge as my model, I can tune the `alpha` parameter to control how strongly I penalize large coefficients - resulted by multi-collinearity. For the second hyperparameter, I control what features I have on. Due to compile time and resource limitation, I choose 3 combinations: all features on, baseline features on, and new final model features on. Lastly, I ask the Best Hyperparameter Seasrch Algorithm to tune `PolynomialFeatures` with degree of 1 to 3. This allows me to capture nonlinear trend without underfitting. 
+
+Given the limited combinations, I used `GridSearchCV` to iteratively find the best combination of hyperparameters while applying 5-fold cross-validation. As a result, the best hyperparameters are:
+1. Degree of 3 for `n_ingred_log_step_poly`
+2. All features of the final model
+3. Ridghe__alpha of 10
+
+### Performance
+
+From the final model, I obtained 0.886 from the train RMSE and 0.884 from the test RMSE. Sefl-contained, this suggests that the final model generalizes well to unseen data and is not overfitting, since the training and testing errors are nearly identical.
+
+In comparison with the baseline model's performance, there is a 0.6% decrease in RMSE, suggesting an improvement.
 
 ## Fairness Analysis
 
