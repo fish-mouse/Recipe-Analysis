@@ -167,7 +167,7 @@ Next, I selected `n_ingredients` as the 2nd column. I grouped the dataset into `
 
 To confirm my prior conjecture, I will perform permutation testing. Firstly, let us focus on `n_steps`.
 
-<br>**Significance Level:** 0.05
+<br>**Significance Level:** 0.01
 <br>**Test Statisitc:** K-S Statistic
 <br>**Null Hypothesis:** the missingness of `average rating` does not depend on `n_steps` in the recipe.
 <br>**Alternate Hypothesis:** the missingness of `average rating` does depend on `n_steps` in the recipe.
@@ -179,11 +179,11 @@ To confirm my prior conjecture, I will perform permutation testing. Firstly, let
   frameborder="0"
 ></iframe>
 
-As shown in the plot above and the p_val calculation below, we see 0.05 > p_val = 0.0. Thus, we reject the null hypothesis. As a result, the missingness of `average rating` does depend on `n_steps`.
+As shown in the plot above and the p_val calculation below, we see 0.01 > p_val = 0.0.0. Thus, we reject the null hypothesis. As a result, the missingness of `average rating` does depend on `n_steps`.
 
 Finally, let us focus on `n_ingredients`.
 
-<br>**Significance Level:** 0.05
+<br>**Significance Level:** 0.01
 <br>**Test Statisitc:** K-S Statistic
 <br>**Null Hypothesis:** the missingness of `average rating` does not depend on `n_ingredients` in the recipe.
 <br>**Alternate Hypothesis:** the missingness of `average rating` does depend on `n_ingredients` in the recipe.
@@ -195,7 +195,7 @@ Finally, let us focus on `n_ingredients`.
   frameborder="0"
 ></iframe>
 
-As shown in the plot above and the p_val calculation, we see 0.05 < p_val = 0.052. Thus, we fail to reject the null hypothesis. As a result, the missingness of `average rating` does not depend on `n_ingredients`.
+As shown in the plot above and the p_val calculation, we see 0.01 < p_val = 0.026. Thus, we fail to reject the null hypothesis. As a result, the missingness of `average rating` does not depend on `n_ingredients`.
 
 ## Hypothesis Testing
 
