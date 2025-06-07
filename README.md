@@ -201,11 +201,10 @@ As shown in the plot above and the p_val calculation, we see 0.01 < p_val = 0.02
 
 In the interest of determining the relationship between minutes and average rating, I focused on whether cooking time is associated with a high average rating (defined as ≥ 4.5). To answer this, I conducted a permutation test.
 
-**Test Statistic**: The sum of squared differences between the observed and expected proportions of high-rated recipes across cooking time bins.
-
-**Significance Level**: 0.01
-**Null Hypothesis (H₀)**: The proportion of highly rated recipes is the same across all cooking time bins.
-**Alternative Hypothesis (H₁)**: The proportion of highly rated recipes differs in at least one cooking time bin.
+<br>**Test Statistic**: The sum of squared differences between the observed and expected proportions of high-rated recipes across cooking time bins.
+<br>**Significance Level**: 0.01
+<br>**Null Hypothesis (H₀)**: The proportion of highly rated recipes is the same across all cooking time bins.
+<br>**Alternative Hypothesis (H₁)**: The proportion of highly rated recipes differs in at least one cooking time bin.
 
 To construct the test, I trimmed minutes at the 95th percentile to prevent extreme values from skewing the analysis, then grouped cooking time into bins of 15 minutes. Under the null hypothesis, we expect the proportion of high-rated recipes (≥ 4.5) to be uniformly distributed across the 17 bins — approximately 1/17 per bin. To measure deviation, I calculated the squared differences between the actual and expected proportions, summing across all bins. This penalizes larger deviations and ensures all differences are positive. Empty bins from sampling were assigned the full squared difference of the expected value.
 
@@ -262,3 +261,13 @@ In comparison with the baseline model's performance, there is a 0.6% decrease in
 
 ## Fairness Analysis
 
+In this final seciton, I performed a fairness analysis using permutation test on two groups: recipes with **long** cooking time and recipes with **short** cooking time. In this context, I define long cooking time as cooking time less than the median of `minutes`. 
+
+<br>**Null Hypothesis:** Our model is fair. Its errir for long and short cooking time recipes are roughly the same, and any differences are due to random chance.
+<br>**Alternate Hypothesis:** Our model is unfair. Its error for shorter cooking time recipes is worse than its error for longer cooking time recipes. 
+<br>**Significance Level**: 0.01
+<br>**Evaulation Metric**: RMSE
+
+<br>**P_val**: 0.0
+
+After performing the permutation test, I obtained a P_val of 0.0, which is smaller than our significance level. As a result, we reject the null hypothesis. This suggests that my model likely performs better on calories perdiction for recipes with higher cooking times, but worse on recipes with lower cooking times. This potentially is due to utilization of features that are more representative of calories of recipes with longer cooking time. Overall, the model shows bias toward one group, indicating an area for improvement in fairness.
