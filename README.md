@@ -186,7 +186,7 @@ Finally, let us focus on `n_ingredients`.
 <br>**Significance Level:** 0.01
 <br>**Test Statisitc:** K-S Statistic
 <br>**Null Hypothesis:** the missingness of `average rating` does not depend on `n_ingredients` in the recipe.
-<br>**Alternate Hypothesis:** the missingness of `average rating` does depend on `n_ingredients` in the recipe.
+<br>**Alternate Hypothesis:** the missingness of `average rating` likely does depend on `n_ingredients` in the recipe.
 
 <iframe
   src="assets\NIngredAvgRatingMissingNull.html"
@@ -195,11 +195,25 @@ Finally, let us focus on `n_ingredients`.
   frameborder="0"
 ></iframe>
 
-As shown in the plot above and the p_val calculation, we see 0.01 < p_val = 0.026. Thus, we fail to reject the null hypothesis. As a result, the missingness of `average rating` does not depend on `n_ingredients`.
+As shown in the plot above and the p_val calculation, we see 0.01 < p_val = 0.026. Thus, we fail to reject the null hypothesis. As a result, the missingness of `average rating` likely does not depend on `n_ingredients`.
 
 ## Hypothesis Testing
 
-### Hypothesis Testing
+In the interest of determining the relationship between minutes and average rating, I focused on whether cooking time is associated with a high average rating (defined as ≥ 4.5). To answer this, I conducted a permutation test.
+
+Test Statistic: The sum of squared differences between the observed and expected proportions of high-rated recipes across cooking time bins.
+
+Significance Level: 0.01
+Null Hypothesis (H₀): The proportion of highly rated recipes is the same across all cooking time bins.
+Alternative Hypothesis (H₁): The proportion of highly rated recipes differs in at least one cooking time bin.
+
+To construct the test, I trimmed minutes at the 95th percentile to prevent extreme values from skewing the analysis, then grouped cooking time into bins of 15 minutes. Under the null hypothesis, we expect the proportion of high-rated recipes (≥ 4.5) to be uniformly distributed across the 17 bins — approximately 1/17 per bin. To measure deviation, I calculated the squared differences between the actual and expected proportions, summing across all bins. This penalizes larger deviations and ensures all differences are positive. Empty bins from sampling were assigned the full squared difference of the expected value.
+
+I sampled 2000 recipes per simulation and shuffled the “Above 4.5” labels 10,000 times to generate a null distribution.
+
+P-value: 0.0001
+
+Since 0.0001 < 0.01, we reject the null hypothesis. This suggests that the proportion of highly rated recipes is likely not uniform across cooking time bins — indicating a possible association between cooking time and high average ratings. 
 
 ## Framing a Prediction Problem
 
