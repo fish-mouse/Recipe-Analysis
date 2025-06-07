@@ -142,9 +142,60 @@ The result shows that first-time contributors have a higher proportion of recipe
 
 ### NMAR Analaysis
 
+There are three columns with NA values: `name`, `description`, `average rating`. I believe the column `description` is Not Missing At Random (NMAR). To recall, NMAR suggests the missingness of the data in question is dependent on itself. In this case, the presence of `description` logically relies on whether the author believes they have anything to add. Some may believe they must cite the source of where they obtained the recipe, or elaborate that their recipe is modified, or boast how delicious it is. However, either emotions or only obligations determine whether they submit a description. Thus, we can conclude that the missingness of `description` is NMAR.
 
 ### Missingness Dependency
+For this section, I'll select `average rating` as the column of non-trivial missingness to analyze. To choose the most suited columns and test statisitc to test for dependency, I will plot a few KDE plots comparing the distributions of column with `average rating` missing and not missing. 
 
+Starting off, I selected `n_steps` as the 1st column. I grouped the dataset into `average rating` missing and not missing. I then graphed the KDE of the two dataset under `n_steps`. From the two distributions, we see that while the means roughly align, the peaks have differences. Thus, it is likely that the missingness of `average rating` depends on `n_steps` and that K-S stat is more suitable than mean-based.
+
+<iframe
+  src="assets\KDE_NStep_vs_AvgRatingMissing.html"
+  width="700"
+  height="450"
+  frameborder="0"
+></iframe>
+
+Next, I selected `n_ingredients` as the 2nd column. I grouped the dataset into `average rating` missing and not missing. I then graphed the KDE of the two dataset under `n_ingredients`. From the two distributions, we see that while the means roughly align, the peaks have little differences. Thus, it is likely that the missingness of `average rating` does not depends on `n_steps` and that K-S stat is more suitable than mean-based.
+
+<iframe
+  src="assets\KDE_NIngred_vs_AvgRatingMissing.html"
+  width="700"
+  height="450"
+  frameborder="0"
+></iframe>
+
+To confirm my prior conjecture, I will perform permutation testing. Firstly, let us focus on `n_steps`.
+
+**Significance Level: ** 0.05
+**Test Statisitc: ** K-S Statistic
+**Null Hypothesis:** the missingness of `average rating` does not depend on `n_steps` in the recipe.
+**Alternate Hypothesis:** the missingness of `average rating` does depend on `n_steps` in the recipe.
+
+<iframe
+  src="assets\NStepsAvgRatingMissingNull.html"
+  width="700"
+  height="450"
+  frameborder="0"
+></iframe>
+
+As shown in the plot above and the p_val calculation below, we see 0.05 > p_val = 0.0. Thus, we reject the null hypothesis. As a result, the missingness of `average rating` does depend on `n_steps`.
+
+Finally, let us focus on `n_ingredients`.
+
+**Significance Level: ** 0.05
+**Test Statisitc: ** K-S Statistic
+**Null Hypothesis:** the missingness of `average rating` does not depend on `n_ingredients` in the recipe.
+**Alternate Hypothesis:** the missingness of `average rating` does depend on `n_ingredients` in the recipe.
+
+<iframe
+  src="assets\NIngredAvgRatingMissingNull.html"
+  width="700"
+  height="450"
+  frameborder="0"
+></iframe>
+
+As shown in the plot above and the p_val calculation, we see 0.05 < p_val = 0.052. Thus, we fail to reject the null hypothesis. As a result, the missingness of `average rating` does not depend on `n_ingredients`.
 
 ## Hypothesis Testing
 
